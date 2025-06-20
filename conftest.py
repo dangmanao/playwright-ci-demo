@@ -14,9 +14,9 @@ def logger():
     return get_logger("TestLogger")
 
 # ✅ Dynamic Parametrize เพื่อรันซ้ำหลาย browser
-#def pytest_generate_tests(metafunc):
-#    if "browser_name" in metafunc.fixturenames:
-#       metafunc.parametrize("browser_name", ["chromium"])  # หรือเพิ่ม firefox ได้ด้วย ถ้าต้องการให้ run กี่ browser ให้มาปรับตรงนี้โดยที่ ลบ หรือ เพิ่ม ชื่อ browser ใน [] "msedge" อันนี้คือ edge
+def pytest_generate_tests(metafunc):
+    if "browser_name" in metafunc.fixturenames:
+       metafunc.parametrize("browser_name", ["chromium"])  # หรือเพิ่ม firefox ได้ด้วย ถ้าต้องการให้ run กี่ browser ให้มาปรับตรงนี้โดยที่ ลบ หรือ เพิ่ม ชื่อ browser ใน [] "msedge" อันนี้คือ edge
 
 # ✅ Fixture: สำหรับรัน test แบบ desktop browser
 # ทำงานทุกครั้งที่มี test (function scope)
