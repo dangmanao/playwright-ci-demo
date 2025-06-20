@@ -21,9 +21,6 @@ def page(logger):
     with sync_playwright() as p:
         browser = p.chromium.launch(channel="chrome", headless=True, slow_mo=100, args=["--start-maximized"])
         context = browser.new_context(no_viewport=True)
-        page = context.new_page()
-        yield page
-
         # สร้าง browser context ใหม่ (เหมือนเปิดหน้าต่างใหม่)
         context = browser.new_context(no_viewport=True)
         # สร้างหน้าเว็บใหม่ใน context นี้ โดยใช้แบบ Full screen
