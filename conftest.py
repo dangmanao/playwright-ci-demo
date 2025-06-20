@@ -31,7 +31,7 @@ def page(logger):
         if hasattr(page, '_did_fail') and page._did_fail:
             timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"reports/fail_{timestamp}.png"
-            page.screenshot(path=f"reports_fail_{timestamp}.png")
+            page.screenshot(path=f"reports_fail{timestamp}.png")
             logger.info(f"[SCREENSHOT SAVED] {filename}")
 
         # ปิด browser context และตัว browser
