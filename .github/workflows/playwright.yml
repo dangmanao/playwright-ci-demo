@@ -24,7 +24,7 @@ jobs:
           playwright install
 
       - name: Run Playwright Tests
-        run: pytest tests/ --html=report.html
+        run: pytest tests/ --html=report.html --self-contained-html
         continue-on-error: true
 
       - name: Upload test report
