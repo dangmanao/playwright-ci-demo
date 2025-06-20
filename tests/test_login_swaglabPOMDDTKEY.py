@@ -17,19 +17,14 @@ from keywords.login_keyword import LoginKeywords
 def test_login_with_keyword_ddt(page, username, password, expected):
     # สร้าง instance ของ LoginKeywords เพื่อเรียกใช้คำสั่ง keyword ต่าง ๆ
     kw = LoginKeywords(page)
-
     # Step 1: เปิดหน้า login ของระบบ
     kw.navigate_to_login()
-
     # Step 2: กรอก username ที่รับมาจาก test data
     kw.input_username(username)
-
     # Step 3: กรอก password จาก test data
     kw.input_password(password)
-
     # Step 4: คลิกปุ่ม login
     kw.click_login()
-
     # Step 5: ตรวจสอบผลลัพธ์ที่คาดหวังจาก test data
     if expected == "success":
         # ถ้า login สำเร็จ ให้ตรวจสอบว่าอยู่ในหน้า inventory แล้ว
