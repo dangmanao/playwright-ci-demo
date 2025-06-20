@@ -13,23 +13,16 @@ import datetime
 def logger():
     return get_logger("TestLogger")
 
-# ✅ Dynamic Parametrize เพื่อรันซ้ำหลาย browser
-def pytest_generate_tests(metafunc):
-    if "browser_name" in metafunc.fixturenames:
-       metafunc.parametrize("browser_name", ["chromium"])  # หรือเพิ่ม firefox ได้ด้วย ถ้าต้องการให้ run กี่ browser ให้มาปรับตรงนี้โดยที่ ลบ หรือ เพิ่ม ชื่อ browser ใน [] "msedge" อันนี้คือ edge
-
 # ✅ Fixture: สำหรับรัน test แบบ desktop browser
 # ทำงานทุกครั้งที่มี test (function scope)
 # ✅ Fixture ที่เปิด browser ตาม browser_name ที่ส่งมา
 @pytest.fixture(scope="function")
-def page(browser_name, logger):
+def page(logger):
     with sync_playwright() as p:
-        if browser_name == "chromium":
-            browser = p.chromium.launch(channel="chrome", headless=False, slow_mo=100, args=["--start-maximized"])
-        elif browser_name == "msedge":
-            browser = p.chromium.launch(channel="msedge", headless=False, slow_mo=500, args=["--start-maximized"])
-        else:
-            raise ValueError(f"ไม่รู้จัก browser: {browser_name}")
+        browser = p.chromium.launch(channel="chrome", headless=False, slow_mo=100, args=["--start-maximized"])
+        context = browser.new_context(no_viewport=True)
+        page = context.new_page()
+        yield page
 
         # สร้าง browser context ใหม่ (เหมือนเปิดหน้าต่างใหม่)
         context = browser.new_context(no_viewport=True)
