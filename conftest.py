@@ -19,7 +19,7 @@ def logger():
 @pytest.fixture(scope="function")
 def page(logger):
     with sync_playwright() as p:
-        browser = p.chromium.launch(channel="chrome", headless=True, slow_mo=100, args=["--start-maximized"])
+        browser = p.chromium.launch(channel="chrome", headless=False, slow_mo=500, args=["--start-maximized"])
         context = browser.new_context(no_viewport=True)
         # สร้าง browser context ใหม่ (เหมือนเปิดหน้าต่างใหม่)
         context = browser.new_context(no_viewport=True)
@@ -45,7 +45,7 @@ def mobile_page(logger):
         # ใช้ preset device profile ของ iPhone 13 ที่ Playwright เตรียมไว้ให้
         iphone = p.devices["iPhone 13"]
         # เปิด browser แบบ headful และ slowMo 1000ms
-        browser = p.chromium.launch(headless=True, slow_mo=100)
+        browser = p.chromium.launch(headless=False, slow_mo=500)
         # สร้าง browser context ใหม่ตาม config ของ iPhone 13
         context = browser.new_context(**iphone)
         # สร้างหน้าใหม่ใน context นั้น

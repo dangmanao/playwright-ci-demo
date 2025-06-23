@@ -11,9 +11,13 @@ from test_data.login_data import login_test_data
 # นำเข้า class ที่เก็บ action (keyword) สำหรับ login
 from keywords.login_keyword import LoginKeywords
 
+from test_data.reader import read_login_data_from_csv
+
+test_data = read_login_data_from_csv("test_data/login_data.csv")
+
 # ใช้ decorator ของ pytest เพื่อกำหนดว่า test function นี้จะถูกรันซ้ำหลายครั้ง โดยใช้ค่าจาก login_test_data
 # แต่ละครั้งจะ map ค่าใน tuple → (username, password, expected) ไปให้กับ parameter ของ test function
-@pytest.mark.parametrize("username, password, expected", login_test_data)
+@pytest.mark.parametrize("username, password, expected", test_data)
 def test_login_with_keyword_ddt(page, username, password, expected):
     # สร้าง instance ของ LoginKeywords เพื่อเรียกใช้คำสั่ง keyword ต่าง ๆ
     kw = LoginKeywords(page)
