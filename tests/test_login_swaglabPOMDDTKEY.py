@@ -19,6 +19,8 @@ test_data = read_login_data_from_csv("test_data/login_data.csv")
 # แต่ละครั้งจะ map ค่าใน tuple → (username, password, expected) ไปให้กับ parameter ของ test function
 @pytest.mark.parametrize("username, password, expected", test_data)
 def test_login_with_keyword_ddt(page, username, password, expected):
+    # DEBUG: print ค่าที่รับมาจาก CSV
+    print(f"🔍 Running with: username={username}, password={password}, expected={expected}")
     # สร้าง instance ของ LoginKeywords เพื่อเรียกใช้คำสั่ง keyword ต่าง ๆ
     kw = LoginKeywords(page)
     # Step 1: เปิดหน้า login ของระบบ
