@@ -6,10 +6,10 @@ from playwright.sync_api import Page, expect
 # 🔹 นำเข้า Page สำหรับควบคุม browser tab
 # 🔹 นำเข้า expect สำหรับ assertion เช่น ตรวจสอบว่า element แสดงผลจริง
 
-def test_example(mobile_page, logger) -> None:
+def test_example(fresh_mobile_page, logger) -> None:
     # 🔹 กำหนดให้เป็น test function สำหรับ pytest
     # 🔹 รับ object `page` ซึ่งเป็น browser page (tab) ที่ใช้ดำเนินการใน test นี้
-    page = mobile_page
+    page = fresh_mobile_page
 
     page.goto("https://www.saucedemo.com/v1/index.html")
     # 🔹 เปิดหน้าเว็บ saucedemo (URL ของหน้า login)

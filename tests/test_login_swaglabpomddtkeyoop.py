@@ -1,32 +1,25 @@
 import pytest
+from test_data.login_data_manager import read_login_data_from_csv
+from test_data.login_data import LoginTestCase
 from keywords.login_keyword import LoginKeywords
-from test_data.login_data_manager import LoginTestDataManager
 
-# สร้าง instance ของ data manager และโหลดข้อมูล
-data_manager = LoginTestDataManager("test_data/login_data.csv")
+test_data = read_login_data_from_csv("test_data/login_data.csv")
 
-# สร้าง test function ธรรมดา (ไม่ใช้ parametrize)
-def test_login_with_keyword_oop(page):
-    kw = LoginKeywords(page)
+@pytest.mark.parametrize("case", test_data)
+def test_login_with_keyword_ddt(persistent_page, case: LoginTestCase):
+    print(f"🔍 Running with: username={case.username}, password={case.password}, expected={case.expected}")
 
-    # วน test ทุกชุดจาก CSV
-    for data in data_manager.get_all():
-        username = data['username']
-        password = data['password']
-        expected = data['expected']
+    kw = LoginKeywords(persistent_page)
 
-        print(f"🟢 RUN: {username=}, {password=}, {expected=}")
+    kw.navigate_to_login()
+    kw.input_username(case.username)
+    kw.input_password(case.password)
+    kw.click_login()
 
-        # เริ่มทดสอบ
-        kw.navigate_to_login()
-        kw.input_username(username)
-        kw.input_password(password)
-        kw.click_login()
-
-        if expected == "success":
-            kw.should_see_inventory_page()
-        else:
-            kw.should_see_error_message(expected)
+    if case.expected == "success":
+        kw.should_see_inventory_page()
+    else:
+        kw.should_see_error_message(case.expected)
 
         # 👉 Reset browser ระหว่างแต่ละชุด test (optional)
-        page.reload()
+        persistent_page.reload()
